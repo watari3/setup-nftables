@@ -69,8 +69,10 @@ EOF
 ### sshによるrootログインを禁止
 sed 's/^#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config
 ### 
-apt -y install sudo
+apt -y install sudo vim
 ### 
 update-alternatives --set editor /usr/bin/vim.basic
 ### 
 locatectl set-keymap --no-convert jp106
+localectl set-locale LANG=ja_JP.utf8
+localectl set-x11-keymap jp
