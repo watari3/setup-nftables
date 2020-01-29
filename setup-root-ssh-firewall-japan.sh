@@ -72,3 +72,5 @@ sed 's/^#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config
 apt -y install sudo
 ### 
 update-alternatives --set editor /usr/bin/vim.basic
+### 
+locatectl set-keymap --no-convert jp106
