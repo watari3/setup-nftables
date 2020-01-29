@@ -66,3 +66,9 @@ table ip filter {
  
 # EOF
 EOF
+### sshによるrootログインを禁止
+sed 's/^#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config
+### 
+apt -y install sudo
+### 
+update-alternatives --set editor /usr/bin/vim.basic
