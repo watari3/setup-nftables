@@ -15,6 +15,9 @@ curl https://ipv4.fetus.jp/jp.txt > jp.txt
 #curl https://ipv4.fetus.jp/jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
 cat ./jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
 cat <<EOF > ${white_list_fname}
+192.168.0.0/16,
+10.0.0.0/8,
+172.16.0.0/12,
 }
 EOF
 ### 
@@ -23,10 +26,11 @@ systemctl enable nftables.service
 sed 's/^ExecReload=\/usr\/sbin\/nft -f \/etc\/nftables.conf/ExecReload=\/usr\/sbin\/nft '\''flush ruleset; include "\/etc\/sysconfig\/nftables.conf";'\''/' /usr/lib/systemd/system/nftables.service
 
 #
+mkdir -p /etc/nftables
 cat <<EOF > /etc/nftables/nftables.conf
 flush ruleset
  
-include "/etc/nftables/country_whitelist"
+include "/etc/nftables/domestic_white_list"
  
 table ip filter {
   set country_accept {
