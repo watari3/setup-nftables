@@ -11,10 +11,11 @@ cat <<EOF > ${white_list_fname}
 define domestic_white_list = {
 EOF
 cp -p jp.txt jp.txt.bkup
-#curl https://ipv4.fetus.jp/jp.txt > jp.txt
-curl https://ipv4.fetus.jp/jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
-#cat ./jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
-cat <<EOF > ${white_list_fname}
+touch ${white_list_fname}
+curl https://ipv4.fetus.jp/jp.txt > jp.txt
+#curl https://ipv4.fetus.jp/jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
+cat ./jp.txt | grep -v '^#' | awk -F, '$1!= "" { print $1FS}' >> ${white_list_fname}
+cat <<EOF >> ${white_list_fname}
 192.168.0.0/16,
 10.0.0.0/8,
 172.16.0.0/12,
