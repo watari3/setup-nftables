@@ -24,6 +24,7 @@ EOF
 ### 
 systemctl enable nftables.service
 ###
+##### ExecReload=/usr/sbin/nft 'flush ruleset; include "/etc/nftables/nftables.conf";'
 sed 's/^ExecReload=\/usr\/sbin\/nft -f \/etc\/nftables.conf/ExecReload=\/usr\/sbin\/nft '\''flush ruleset; include "\/etc\/nftables\/nftables.conf";'\''/' /usr/lib/systemd/system/nftables.service
 
 #
@@ -36,7 +37,7 @@ include "/etc/nftables/domestic_white_list"
 table ip filter {
   set country_accept {
     type ipv4_addr; flags interval;
-    elements = $country_white_list
+    elements = $domestic_white_list
   }
  
   chain INPUT {
@@ -46,8 +47,8 @@ table ip filter {
  
     ct state established,related counter accept
  
-    ct state new tcp dport 80 counter accept
-    ct state new tcp dport 443 counter accept
+    ct state new tcp dport 80 ip saddr @country_accept counter accept
+    ct state new tcp dport 443 ip saddr @country_accept counter accept
     ct state new tcp dport 22 ip saddr @country_accept counter accept
  
     icmp type echo-reply counter accept
