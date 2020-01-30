@@ -24,7 +24,7 @@ EOF
 ### 
 systemctl enable nftables.service
 ###
-sed 's/^ExecReload=\/usr\/sbin\/nft -f \/etc\/nftables.conf/ExecReload=\/usr\/sbin\/nft '\''flush ruleset; include "\/etc\/sysconfig\/nftables.conf";'\''/' /usr/lib/systemd/system/nftables.service
+sed 's/^ExecReload=\/usr\/sbin\/nft -f \/etc\/nftables.conf/ExecReload=\/usr\/sbin\/nft '\''flush ruleset; include "\/etc\/nftables\/nftables.conf";'\''/' /usr/lib/systemd/system/nftables.service
 
 #
 mkdir -p /etc/nftables
@@ -36,7 +36,7 @@ include "/etc/nftables/domestic_white_list"
 table ip filter {
   set country_accept {
     type ipv4_addr; flags interval;
-    elements = $country_whitelist
+    elements = $country_white_list
   }
  
   chain INPUT {
